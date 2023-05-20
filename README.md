@@ -34,7 +34,7 @@ main({
 })
 ```
 
-The application declares two entrypoints, `webserver` and a `worker`. The values of the configuration object are paths to actual nodejs scripts, relative to current working directory.
+The application declares two entrypoints, `webserver` and a `worker`. The values of the configuration object are paths to actual nodejs scripts, relative to current working directory. The target scripts are expected to export `start` function of interface `() => any`.
 
 Once compiled and run:
 
