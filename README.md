@@ -34,7 +34,7 @@ main({
 })
 ```
 
-The application declares two entrypoints, `webserver` and a `worker`. The values of the configuration object are paths to actual nodejs scripts, as if you'd `require` them.
+The application declares two entrypoints, `webserver` and a `worker`. The values of the configuration object are paths to actual nodejs scripts, relative to current working directory.
 
 Once compiled and run:
 
