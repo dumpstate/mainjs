@@ -1,3 +1,4 @@
+import path from "path"
 import cluster from "node:cluster"
 
 import { Logger, LoggerConfig, newLogger } from "./logger"
@@ -23,7 +24,10 @@ export function main(cfg: Config) {
 			process.exit(1)
 		}
 
-		const { start } = require(cfg.entrypoints[entrypoint] as string)
+		const { start } = require(path.join(
+			process.cwd(),
+			cfg.entrypoints[entrypoint] as string
+		))
 
 		start()
 	}
