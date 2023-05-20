@@ -1,6 +1,6 @@
 {
 	"name": "@dumpstate/mainjs",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Main script for nodejs apps.",
 	"main": "lib/index.js",
 	"scripts": {
@@ -15,8 +15,12 @@
 	"license": "MIT",
 	"devDependencies": {
 		"@types/node": "^18.16.3",
+		"pino": "^8.11.0",
 		"prettier": "^2.8.8",
 		"typescript": "^5.0.4"
+	},
+	"optionalDependencies": {
+		"pino": "^8.11.0"
 	},
 	"publishConfig": {
 		"registry": "https://npm.pkg.github.com/",
