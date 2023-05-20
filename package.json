@@ -1,6 +1,6 @@
 {
 	"name": "@dumpstate/mainjs",
-	"version": "0.3.0",
+	"version": "0.4.0",
 	"description": "Main script for nodejs apps.",
 	"main": "lib/index.js",
 	"scripts": {

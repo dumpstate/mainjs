@@ -38,23 +38,47 @@ export function main(cfg: Config) {
 	if (argv._.length === 0) {
 		// no arguments, starting all processes
 		if (cluster.isPrimary) {
+			let childProcessCount = 0
 			for (const name of Object.keys(cfg.entrypoints)) {
 				const count = argv[`${name}-count`] || 1
 
 				for (let i = 0; i < count; i++) {
+					childProcessCount += 1
 					cluster.fork({
 						WORKER_NAME: name,
 					})
 				}
 			}
 
+			let shutdownInProgress = false
+
 			cluster.on("exit", (worker) => {
 				logger.info(`worker ${worker.process.pid} terminated`)
+				childProcessCount -= 0
 
-				for (const id in cluster.workers) {
-					cluster.workers[id]?.kill()
+				if (childProcessCount === 0) {
+					process.exit(0)
+				}
+
+				if (!shutdownInProgress) {
+					for (const id in cluster.workers) {
+						cluster.workers[id]?.kill("SIGTERM")
+					}
+
+					shutdownInProgress = true
 				}
 			})
+
+			for (const sig of ["SIGINT", "SIGTERM"]) {
+				process.on(sig, () => {
+					logger.info(`received ${sig} signal; shutdown in progress`)
+					shutdownInProgress = true
+
+					for (const id in cluster.workers) {
+						cluster.workers[id]?.kill(sig)
+					}
+				})
+			}
 		} else if (cluster.isWorker) {
 			run(process.env["WORKER_NAME"] as string)
 		}

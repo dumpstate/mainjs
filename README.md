@@ -60,6 +60,6 @@ node dist/main.js webserver
 
 ### OS Signal Handling
 
-No special OS signal handling - defaulting to `node:cluster` behaviour.
+Primary process listens for SIGINT and SIGTERM signals, then propagates signal to child processes.
 
-If one process exits, all other processes will receive `9 / kill` signal and the main process will exit as well. In this case the main process supervisor should ensure to re-start.
+If one process exits, all other child processes will receive `SIGTERM` signal and the main process will exit as well. In this case the main process supervisor should ensure to re-start.
