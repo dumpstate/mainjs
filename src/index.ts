@@ -31,7 +31,7 @@ export function main(cfg: Config) {
 	if (args.length === 0) {
 		// no arguments, starting all processes
 		if (cluster.isPrimary) {
-			for (const name of Object.values(cfg.entrypoints)) {
+			for (const name of Object.keys(cfg.entrypoints)) {
 				cluster.fork({
 					WORKER_NAME: name,
 				})
