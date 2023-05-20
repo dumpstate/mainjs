@@ -1,2 +1,3 @@
-# mainjs
+# @dumpstate/mainjs
+
 Main script for nodejs apps.
