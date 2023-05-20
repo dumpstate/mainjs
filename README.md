@@ -62,4 +62,4 @@ node dist/main.js webserver
 
 No special OS signal handling - defaulting to `node:cluster` behaviour.
 
-If one process exist, all other processes will receive `9 / kill` signal and the main process will exit. In this case the main process supervisor should ensure to re-start.
+If one process exits, all other processes will receive `9 / kill` signal and the main process will exit as well. In this case the main process supervisor should ensure to re-start.
