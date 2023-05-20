@@ -1,6 +1,8 @@
 import path from "path"
 import cluster from "node:cluster"
 
+import minimist from "minimist"
+
 import { Logger, LoggerConfig, newLogger } from "./logger"
 
 export interface Config {
@@ -10,7 +12,7 @@ export interface Config {
 }
 
 export function main(cfg: Config) {
-	const args = process.argv.slice(2)
+	const argv = minimist(process.argv.slice(2))
 	const logger = cfg.logger || newLogger(cfg.loggerConfig)
 
 	function run(entrypoint: string) {
@@ -26,19 +28,24 @@ export function main(cfg: Config) {
 
 		const { start } = require(path.join(
 			process.cwd(),
+			argv["dist-dir"] || "",
 			cfg.entrypoints[entrypoint] as string
 		))
 
 		start()
 	}
 
-	if (args.length === 0) {
+	if (argv._.length === 0) {
 		// no arguments, starting all processes
 		if (cluster.isPrimary) {
 			for (const name of Object.keys(cfg.entrypoints)) {
-				cluster.fork({
-					WORKER_NAME: name,
-				})
+				const count = argv[`${name}-count`] || 1
+
+				for (let i = 0; i < count; i++) {
+					cluster.fork({
+						WORKER_NAME: name,
+					})
+				}
 			}
 
 			cluster.on("exit", (worker) => {
@@ -51,11 +58,11 @@ export function main(cfg: Config) {
 		} else if (cluster.isWorker) {
 			run(process.env["WORKER_NAME"] as string)
 		}
-	} else if (args.length === 1) {
+	} else if (argv._.length === 1) {
 		// single argument - starting selected worker
-		run(args[0] as string)
+		run(argv._[0] as string)
 	} else {
-		logger.error("expected either no, or a single argument")
+		logger.error(`unsupported command: ${argv._}`)
 		process.exit(1)
 	}
 }

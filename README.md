@@ -51,3 +51,15 @@ node dist/main.js webserver
 ```
 
 `@dumpstate/mainjs` optionally depends on `pino` - if not available `console` is being used for logging. A concrete instance of `logger` might be provided via config as well as the basic logger configuration.
+
+### CLI Arguments
+
+1. `--dist-dir` to specify the distribution directory (e.g., `dist` folder, relative to current working directory).
+
+2. `--${entrypoint name}-count` to specify number of processes we'd like to run for given entrypoint.
+
+### OS Signal Handling
+
+No special OS signal handling - defaulting to `node:cluster` behaviour.
+
+If one process exist, all other processes will receive `9 / kill` signal and the main process will exit. In this case the main process supervisor should ensure to re-start.
