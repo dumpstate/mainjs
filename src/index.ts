@@ -29,7 +29,7 @@ export function main(cfg: Config) {
 		const { start } = require(path.join(
 			process.cwd(),
 			argv["dist-dir"] || "",
-			cfg.entrypoints[entrypoint] as string
+			cfg.entrypoints[entrypoint] as string,
 		))
 
 		start()
