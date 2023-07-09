@@ -11,6 +11,7 @@
 		"test": "npm run lint"
 	},
 	"author": "Albert Sadowski <asadowski@mailbox.org>",
+	"repository": "dumpstate/mainjs",
 	"license": "MIT",
 	"devDependencies": {
 		"@types/minimist": "^1.2.2",
@@ -26,7 +27,7 @@
 		"minimist": "^1.2.8"
 	},
 	"publishConfig": {
-		"registry": "https://npm.pkg.github.com/",
-		"access": "public"
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
 	}
 }
